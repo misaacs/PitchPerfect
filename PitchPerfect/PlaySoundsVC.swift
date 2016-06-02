@@ -56,6 +56,13 @@ class PlaySoundsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("PlaySoundsVC Loaded")
+        snailButton.imageView?.contentMode = UIViewContentMode.ScaleAspectFit
+        chipmunkButton.imageView?.contentMode = UIViewContentMode.ScaleAspectFit
+        rabbitButton.imageView?.contentMode = UIViewContentMode.ScaleAspectFit
+        vaderButton.imageView?.contentMode = UIViewContentMode.ScaleAspectFit
+        echoButton.imageView?.contentMode = UIViewContentMode.ScaleAspectFit
+        reverbButton.imageView?.contentMode = UIViewContentMode.ScaleAspectFit
+        stopButton.imageView?.contentMode = UIViewContentMode.ScaleAspectFit
         setupAudio()
         // Do any additional setup after loading the view.
     }
@@ -68,16 +75,4 @@ class PlaySoundsViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.de   stinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
