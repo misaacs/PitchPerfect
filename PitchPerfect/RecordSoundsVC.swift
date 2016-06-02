@@ -16,39 +16,33 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     @IBOutlet weak var stopRecordingButton: UIButton!
     
     var audioRecorder: AVAudioRecorder!
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-    }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(true)
+    func activateRecordButtonAndLabel(){
+        recordingStatusLabel.text = "Tap to Record"
         stopRecordingButton.enabled = false
         recordButton.enabled=true
     }
     
+    func activateStopButtonAndLabel(){
+        recordingStatusLabel.text = "Recording in progress"
+        stopRecordingButton.enabled = true
+        recordButton.enabled=false
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(true)
+        activateRecordButtonAndLabel()
+    }
+    
     @IBAction func stopRecording(sender: UIButton) {
-        recordingStatusLabel.text = "Tap to Record"
-        stopRecordingButton.enabled = false
-        recordButton.enabled = true
-        
-        //stop recording
+        activateRecordButtonAndLabel()
         audioRecorder.stop()
         let session = AVAudioSession.sharedInstance()
         try! session.setActive(false)
     }
     
     @IBAction func recordAudio(sender: UIButton) {
-        recordingStatusLabel.text = "Recording in progress"
-        stopRecordingButton.enabled = true
-        recordButton.enabled=false
-        
+        activateStopButtonAndLabel()
         let dirPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory,.UserDomainMask, true)[0] as String
         let recordingName = "recordedVoice.wav"
         let pathArray = [dirPath, recordingName]
@@ -65,13 +59,13 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
         audioRecorder.record()
     }
     
-    func audioRecorderDidFinishRecording(recorder: AVAudioRecorder, successfully flag: Bool) {
+    func audioRecorderDidFinishRecording(recorder: AVAudioRecorder, successfully flag: Bool){
         if flag {
             self.performSegueWithIdentifier("recordingDoneSegue", sender: audioRecorder.url)
-        }else{
-        print("Problem saving audio file")
         }
-        // passes out the URL to the file
+        else{
+            print("Problem saving audio file")
+        }
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
