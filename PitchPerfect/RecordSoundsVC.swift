@@ -17,32 +17,27 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     
     var audioRecorder: AVAudioRecorder!
 
-    func activateRecordButtonAndLabel(){
-        recordingStatusLabel.text = "Tap to Record"
-        stopRecordingButton.enabled = false
-        recordButton.enabled=true
-    }
-    
-    func activateStopButtonAndLabel(){
-        recordingStatusLabel.text = "Recording in progress"
-        stopRecordingButton.enabled = true
-        recordButton.enabled=false
+    func canRecordNow(recordNow: Bool=true){
+        
+        recordingStatusLabel.text = recordNow ? "Tap to Record" : "Recording in progress"
+        recordButton.enabled = recordNow
+        stopRecordingButton.enabled = !recordNow
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
-        activateRecordButtonAndLabel()
+        canRecordNow()
     }
     
     @IBAction func stopRecording(sender: UIButton) {
-        activateRecordButtonAndLabel()
+        canRecordNow()
         audioRecorder.stop()
         let session = AVAudioSession.sharedInstance()
         try! session.setActive(false)
     }
     
     @IBAction func recordAudio(sender: UIButton) {
-        activateStopButtonAndLabel()
+        canRecordNow(false)
         let dirPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory,.UserDomainMask, true)[0] as String
         let recordingName = "recordedVoice.wav"
         let pathArray = [dirPath, recordingName]
